@@ -128,3 +128,30 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media (max-width: 991.98px) {
+  .events-track {
+    padding: 6px 12px 12px; /* menos lateral */
+    scroll-padding: 0 12px;
+  }
+
+  .events-track::before,
+  .events-track::after {
+    flex: 0 0 12px; /* mismo que el padding */
+  }
+
+  .event-card {
+    min-width: clamp(260px, 82vw, 360px);
+    max-width: clamp(260px, 82vw, 360px);
+  }
+
+  .event-image {
+    height: 150px; /* un pelín más compacto */
+  }
+}
+
+@media (max-width: 575.98px) {
+  .event-image {
+    height: 140px;
+  }
+}
