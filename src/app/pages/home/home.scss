@@ -1,0 +1,136 @@
+/* HERO video */
+.hero-video .ratio {
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+/* Carrusel eventos */
+.events-track {
+  display: flex;
+  flex-direction: row; /* ✅ normal */
+  gap: 12px;
+  overflow-x: auto;
+
+  padding: 6px 24px 12px;
+  scroll-padding: 0 24px;
+
+  scroll-snap-type: none;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: pan-y;
+}
+
+.events-track.dragging {
+  cursor: grabbing;
+  scroll-snap-type: none; /* ✅ sin “autoadjustes” mientras arrastras */
+}
+
+/* ✅ deja aire al final del carrusel (importante con rtl) */
+.events-track::before,
+.events-track::after {
+  content: '';
+  flex: 0 0 24px; /* mismo valor que el padding lateral */
+}
+
+.event-card {
+  direction: ltr; /* 👈 evita que el texto se invierta */
+  min-width: 320px;
+  max-width: 360px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+.event-badge {
+  background: rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+}
+
+.event-image {
+  width: 100%;
+  height: 160px; /* 🔥 todas iguales */
+  overflow: hidden;
+  border-radius: 14px; /* opcional */
+  margin-bottom: 12px;
+}
+
+.event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 recorta y mantiene proporción */
+  object-position: center;
+  display: block;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* evita clicks accidentales mientras arrastras */
+.events-track.dragging a,
+.events-track.dragging button {
+  pointer-events: none;
+}
+
+/* ✅ Lista vertical (uno debajo del otro) */
+.lista-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+/* ✅ Link en “fila” full width */
+.link-pill {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.link-pill:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.link-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0; /* para que el texto haga ellipsis */
+}
+
+.link-img {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  object-fit: cover;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.25);
+  flex: 0 0 auto;
+}
+
+.link-text {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

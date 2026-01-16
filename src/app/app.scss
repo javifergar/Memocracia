@@ -1,0 +1,59 @@
+/* Footer global */
+.app-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 28px 16px 20px;
+  text-align: center;
+}
+
+/* fila de iconos */
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+/* botones sociales (reutiliza tu estilo) */
+.social-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  color: rgba(229, 231, 235, 0.78);
+  text-decoration: none;
+
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.social-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* colores reales SOLO al hover */
+.social-btn:hover .bi-instagram {
+  color: #e1306c;
+}
+.social-btn:hover .bi-spotify {
+  color: #1db954;
+}
+.social-btn:hover .bi-youtube {
+  color: #ff0000;
+}
+.social-btn:hover .bi-twitter-x {
+  color: #000000;
+}
+.social-btn:hover .bi-facebook {
+  color: #1877f2;
+}
+
+/* copyright */
+.footer-copy {
+  font-size: 0.85rem;
+}
