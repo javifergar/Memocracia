@@ -57,3 +57,14 @@
 .footer-copy {
   font-size: 0.85rem;
 }
+
+@media (max-width: 575.98px) {
+  .social-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .app-footer {
+    padding: 22px 12px 18px;
+  }
+}
