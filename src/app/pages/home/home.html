@@ -1,0 +1,203 @@
+<div class="container">
+  <!-- HERO -->
+  <section id="inicio" class="glass soft-shadow p-4 p-md-5 mb-4">
+    <div class="d-flex flex-column gap-3">
+      <!-- <div class="d-flex flex-wrap gap-2">
+        <span
+          class="badge rounded-pill px-3 py-2"
+          style="background: rgba(124, 58, 237, 0.14); border: 1px solid rgba(124, 58, 237, 0.3)"
+        >
+          Producción
+        </span>
+        <span
+          class="badge rounded-pill px-3 py-2"
+          style="background: rgba(34, 211, 238, 0.12); border: 1px solid rgba(34, 211, 238, 0.25)"
+        >
+          Conciertos
+        </span>
+        <span
+          class="badge rounded-pill px-3 py-2"
+          style="background: rgba(251, 113, 133, 0.1); border: 1px solid rgba(251, 113, 133, 0.22)"
+        >
+          Escena local
+        </span>
+      </div> -->
+
+      <h1 class="display-5 fw-bold mb-0 text-center">Memocracia</h1>
+
+      @if (heroVideoUrl) {
+      <div class="hero-video mt-3">
+        <div class="ratio ratio-16x9 glass soft-shadow">
+          <iframe
+            [src]="heroVideoUrl"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+      } @else {
+      <div class="glass p-3 mt-3 text-center">
+        <div class="text-muted-2 mb-2">Vídeo no disponible. Revisa el enlace en la hoja.</div>
+        @if (heroVideoLink) {
+        <a
+          class="btn btn-outline-secondary btn-sm"
+          [href]="heroVideoLink"
+          target="_blank"
+          rel="noopener"
+        >
+          Abrir en YouTube
+        </a>
+        }
+      </div>
+      }
+
+      <!-- <p class="lead text-muted-2 mb-0">
+        Creamos eventos musicales con una identidad clara: energía, comunidad y calidad. Rock y
+        punk, con producción profesional.
+      </p>
+
+      <div class="d-flex gap-2 flex-wrap pt-2">
+        <a class="btn btn-primary btn-lg px-4" [routerLink]="['/']" fragment="eventos">
+          Ver eventos
+        </a>
+        <a class="btn btn-outline-secondary btn-lg px-4" [routerLink]="['/']" fragment="contacto">
+          Contacto
+        </a>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- QUIÉNES SOMOS -->
+  <!-- <section class="glass p-4 p-md-5 mb-4">
+    <h2 class="section-title mb-3">Quiénes somos</h2>
+    <p class="text-muted-2 fs-5">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua.
+    </p>
+    <p class="text-muted-2 fs-5 mb-0">
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+      pariatur. Excepteur sint occaecat cupidatat non proident.
+    </p>
+  </section> -->
+
+  <!-- QUÉ HACEMOS -->
+  <!-- <section class="glass p-4 p-md-5 mb-4">
+    <h2 class="section-title mb-4">Qué hacemos</h2>
+
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="glass p-3 h-100">
+          <div class="fw-bold mb-2">Conciertos</div>
+          <div class="text-muted-2">Lorem ipsum dolor sit amet...</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="glass p-3 h-100">
+          <div class="fw-bold mb-2">Colaboraciones</div>
+          <div class="text-muted-2">Red con salas, colectivos y bandas...</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="glass p-3 h-100">
+          <div class="fw-bold mb-2">Comunidad</div>
+          <div class="text-muted-2">Creamos espacios seguros...</div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- EVENTOS -->
+  <section id="eventos" class="glass p-4 p-md-5 mb-4">
+    <div class="d-flex align-items-end justify-content-between flex-wrap gap-2 mb-3">
+      <h2 class="section-title mb-0">Eventos</h2>
+
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-sm px-3" type="button" (click)="nextEvent()">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+        <button class="btn btn-outline-secondary btn-sm px-3" type="button" (click)="prevEvent()">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <p class="text-muted-2 mb-3">Próximos conciertos y fechas.</p>
+
+    <div
+      id="eventsTrack"
+      class="events-track"
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp($event)"
+      (pointercancel)="onPointerUp($event)"
+      (lostpointercapture)="onPointerUp($event)"
+    >
+      @for (e of events; track e.title) {
+      <article class="event-card glass p-3">
+        @if (e.image_url) {
+        <div class="event-image">
+          <img
+            [src]="e.image_url"
+            alt="Imagen evento {{ e.title }}"
+            loading="lazy"
+            draggable="false"
+            (dragstart)="$event.preventDefault()"
+          />
+        </div>
+        }
+
+        <div class="event-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fw-bold">{{ e.tag }} · {{ e.title }}</div>
+              <div class="text-muted-2 small">{{ e.city }} · {{ e.venue }}</div>
+            </div>
+
+            @if (e.badge) {
+            <span class="badge rounded-pill event-badge">{{ e.badge }}</span>
+            }
+          </div>
+
+          @if (e.desc) {
+          <div class="text-muted-2 mt-3">{{ e.desc }}</div>
+          }
+
+          <div class="event-footer mt-3">
+            @if (e.ticket_url) {
+            <a class="btn btn-primary btn-sm" [href]="e.ticket_url" target="_blank" rel="noopener">
+              Entradas
+            </a>
+            }
+          </div>
+        </div>
+      </article>
+
+      }
+    </div>
+  </section>
+
+  @for (sec of seccionesDinamicas; track sec.slug) {
+  <section [id]="sec.slug" class="glass p-4 p-md-5 mb-4">
+    <h2 class="section-title text-center mb-3">{{ sec.titulo }}</h2>
+
+    @if (sec.tipo === 'links') {
+    <div class="lista-links">
+      @for (it of sec.items; track it.nombre) {
+      <a class="link-pill" [href]="it.url" target="_blank" rel="noopener">
+        <div class="link-left">
+          <img class="link-img" [src]="getLinkImage(it)" [alt]="it.nombre" loading="lazy" />
+          <span class="link-text">{{ it.nombre }}</span>
+        </div>
+
+        <i class="bi bi-box-arrow-up-right"></i>
+      </a>
+      }
+    </div>
+    }
+  </section>
+  }
+</div>

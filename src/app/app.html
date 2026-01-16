@@ -1,0 +1,69 @@
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <app-navbar></app-navbar>
+  </aside>
+
+  <!-- Contenido -->
+  <div class="content">
+    <main class="py-4 px-4">
+      <router-outlet></router-outlet>
+    </main>
+
+    <footer class="app-footer">
+      <div class="footer-social">
+        <a
+          class="social-btn"
+          href="https://www.instagram.com/memocracia/?hl=es"
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram"
+        >
+          <i class="bi bi-instagram"></i>
+        </a>
+
+        <a
+          class="social-btn"
+          href="https://open.spotify.com/intl-es/artist/6YNaadc735iV6WCs2ey5qH"
+          target="_blank"
+          rel="noopener"
+          aria-label="Spotify"
+        >
+          <i class="bi bi-spotify"></i>
+        </a>
+
+        <a
+          class="social-btn"
+          href="https://www.youtube.com/@memocracia"
+          target="_blank"
+          rel="noopener"
+          aria-label="YouTube"
+        >
+          <i class="bi bi-youtube"></i>
+        </a>
+
+        <a
+          class="social-btn"
+          href="https://x.com/Memocracia_"
+          target="_blank"
+          rel="noopener"
+          aria-label="X"
+        >
+          <i class="bi bi-twitter-x"></i>
+        </a>
+
+        <a
+          class="social-btn"
+          href="https://www.facebook.com/Memocraciaa/?locale=es_ES"
+          target="_blank"
+          rel="noopener"
+          aria-label="Facebook"
+        >
+          <i class="bi bi-facebook"></i>
+        </a>
+      </div>
+
+      <div class="footer-copy text-muted-2">© {{ currentYear }} Memocracia</div>
+    </footer>
+  </div>
+</div>

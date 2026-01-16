@@ -1,0 +1,53 @@
+<div class="h-100 d-flex flex-column p-4">
+  <!-- Brand -->
+  <div class="mb-4 d-flex align-items-center gap-3">
+    <img src="assets/images/memo.jpg" alt="Memocracia" class="logo" />
+
+    <div>
+      <div class="fw-bold fs-4 lh-1">Memocracia</div>
+    </div>
+  </div>
+
+  <div class="divider my-2"></div>
+
+  <!-- Nav -->
+  <nav class="nav flex-column gap-1 mt-2">
+    <a
+      class="nav-itemx"
+      [class.active]="(active$ | async) === 'inicio'"
+      [routerLink]="['/']"
+      fragment="inicio"
+    >
+      <span class="dot"></span><span>Inicio</span>
+    </a>
+
+    <a
+      class="nav-itemx"
+      [class.active]="(active$ | async) === 'eventos'"
+      [routerLink]="['/']"
+      fragment="eventos"
+    >
+      <span class="dot"></span><span>Eventos</span>
+    </a>
+
+    @for (sec of seccionesNav; track sec.slug) {
+    <a
+      class="nav-itemx"
+      [class.active]="(active$ | async) === sec.slug"
+      [routerLink]="['/']"
+      [fragment]="sec.slug"
+    >
+      <span class="dot"></span><span>{{ sec.titulo }}</span>
+    </a>
+    }
+  </nav>
+
+  <!-- CTA -->
+  <!-- <div class="glass p-3">
+    <div class="fw-semibold mb-1">¿Tienes una propuesta?</div>
+    <div class="small text-muted-2 mb-3">Bandas, salas, colaboraciones o patrocinios.</div>
+    <a class="btn btn-primary w-100" [routerLink]="['/']" fragment="contacto">Escríbenos</a>
+  </div> -->
+
+  <!-- <div class="mt-3 small text-muted-2">© {{ currentYear }} Memocracia</div> -->
+</div>
