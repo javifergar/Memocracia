@@ -74,12 +74,6 @@
   user-select: none;
 }
 
-/* evita clicks accidentales mientras arrastras */
-.events-track.dragging a,
-.events-track.dragging button {
-  pointer-events: none;
-}
-
 /* ✅ Lista vertical (uno debajo del otro) */
 .lista-links {
   display: flex;

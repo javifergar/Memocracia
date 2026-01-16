@@ -38,6 +38,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private rafId: number | null = null;
   private targetScrollLeft = 0;
 
+  private arrastreX = 0;
+  private bloqueoClick = false;
+  private UMBRAL_DRAG = 8; // px
+  private downOnInteractive = false;
+  private clickBlockTimeout: any = null;
+
   heroVideoUrl?: SafeResourceUrl;
   events: EventItem[] = [];
   heroVideoLink = ''; // para fallback a "ver en YouTube"
@@ -187,8 +193,21 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    // provisional, para que funcione desde el primer render
     setTimeout(() => this.spy.observe(['inicio', 'eventos'], 0.38), 0);
+
+    // ✅ Bloquea clicks SOLO si hubo arrastre
+    const track = document.getElementById('eventsTrack');
+    if (track) {
+      track.addEventListener(
+        'click',
+        (e) => {
+          if (!this.bloqueoClick) return;
+          e.preventDefault();
+          e.stopPropagation();
+        },
+        true
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -201,42 +220,59 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (ev.pointerType === 'mouse' && ev.button !== 0) return;
 
-    this.isDragging = true;
+    const target = ev.target as HTMLElement | null;
+    const interactive = target?.closest('a,button,input,textarea,select,label');
+
+    // ✅ Si empiezas en un enlace/botón: no tocamos nada (deja que el navegador navegue)
+    if (interactive) {
+      this.pointerId = null;
+      this.isDragging = false;
+      this.bloqueoClick = false;
+      return;
+    }
+
+    // ✅ Gesto normal para arrastrar
+    this.isDragging = false;
     this.pointerId = ev.pointerId;
 
     track.setPointerCapture(ev.pointerId);
-    track.classList.add('dragging');
 
     const rect = track.getBoundingClientRect();
     this.dragStartX = ev.clientX - rect.left;
     this.dragStartScrollLeft = track.scrollLeft;
 
     this.targetScrollLeft = track.scrollLeft;
+    this.arrastreX = 0;
+    this.bloqueoClick = false;
 
-    // corta cualquier RAF anterior
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
-
-    ev.preventDefault();
   }
 
   onPointerMove(ev: PointerEvent) {
-    if (!this.isDragging) return;
+    if (this.pointerId !== ev.pointerId) return;
 
     const track = document.getElementById('eventsTrack') as HTMLElement | null;
     if (!track) return;
-    if (this.pointerId !== ev.pointerId) return;
 
     const rect = track.getBoundingClientRect();
     const x = ev.clientX - rect.left;
     const dx = x - this.dragStartX;
 
-    // 1:1 con el ratón
+    const absDx = Math.abs(dx);
+
+    if (!this.isDragging && absDx > this.UMBRAL_DRAG) {
+      this.isDragging = true;
+      this.bloqueoClick = true;
+      track.classList.add('dragging');
+    }
+
+    if (!this.isDragging) return;
+
     this.targetScrollLeft = this.dragStartScrollLeft - dx;
 
-    // aplica en el próximo frame (fluido)
     if (!this.rafId) {
       this.rafId = requestAnimationFrame(() => {
         this.rafId = null;
@@ -253,16 +289,27 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.pointerId !== ev.pointerId) return;
 
-    this.isDragging = false;
-    this.pointerId = null;
-
     track.classList.remove('dragging');
+
+    // ✅ libera el capture
+    try {
+      track.releasePointerCapture(ev.pointerId);
+    } catch {}
 
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
       this.rafId = null;
     }
+
+    this.pointerId = null;
+
+    if (this.bloqueoClick) {
+      // se come el click post-drag
+      setTimeout(() => (this.bloqueoClick = false), 0);
+    }
+    this.isDragging = false;
   }
+
   getLinkImage(it: LinkItem): string {
     const direct = (it.image_url || '').trim();
     if (direct) return direct;
