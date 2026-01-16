@@ -22,6 +22,12 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: pan-y;
+
+  /* ✅ ocultar scrollbar (compat) */
+  -ms-overflow-style: none;
+}
+.events-track::-webkit-scrollbar {
+  display: none;
 }
 
 .events-track.dragging {
@@ -44,6 +50,9 @@
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
+
+  /* ✅ evita cortes por bordes/padding */
+  box-sizing: border-box;
 }
 
 .event-footer {
@@ -51,6 +60,7 @@
   display: flex;
   justify-content: center;
 }
+
 .event-badge {
   background: rgba(34, 211, 238, 0.12);
   border: 1px solid rgba(34, 211, 238, 0.25);
@@ -129,6 +139,9 @@
   text-overflow: ellipsis;
 }
 
+/* =========================
+   Responsive: tablet/móvil
+   ========================= */
 @media (max-width: 991.98px) {
   .events-track {
     padding: 6px 12px 12px; /* menos lateral */
@@ -150,7 +163,37 @@
   }
 }
 
+/* =========================
+   Carrusel: móvil (1 card completa)
+   ========================= */
 @media (max-width: 575.98px) {
+  .events-track {
+    padding: 6px 12px 12px; /* 12px a cada lado */
+    scroll-padding: 0 12px;
+
+    /* ✅ encaja al soltar */
+    scroll-snap-type: x mandatory;
+
+    /* ✅ evita recortes por padding del .container (Bootstrap) */
+    margin-left: -12px;
+    margin-right: -12px;
+  }
+
+  /* ✅ quita los "spacers" que a veces recortan la card */
+  .events-track::before,
+  .events-track::after {
+    content: none !important;
+  }
+
+  /* ✅ una card = ancho visible exacto (100% - padding izq/der) */
+  .event-card {
+    flex: 0 0 calc(100% - 24px); /* 12px + 12px */
+    min-width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
+
+    scroll-snap-align: start;
+  }
+
   .event-image {
     height: 140px;
   }
